@@ -45,3 +45,21 @@ def edit_note(file_path, title, new_title, new_body):
             else:
                 csv_writer.writerow(note)
 
+
+def delete_note(file_path, title):
+    confirm = input("Are you sure you want to delete the note? (y/n): ")
+    if confirm.lower() == 'y':
+        notes = []
+        with open(file_path, 'r', newline='') as csvfile:
+            csv_reader = csv.reader(csvfile, delimiter=';')
+            notes = list(csv_reader)
+
+        with open(file_path, 'w', newline='') as csvfile:
+            csv_writer = csv.writer(csvfile, delimiter=';')
+            csv_writer.writerow(['Name', 'Note', 'Date', 'Time'])
+            for note in notes[1:]:
+                if note[0] != title:
+                    csv_writer.writerow(note)
+        print(f'Note names "{title}" deleted.')
+    else:
+        print(f'Note named "{title}" was not deleted.')
