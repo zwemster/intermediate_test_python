@@ -30,3 +30,18 @@ def add_note(file_path, title, body):
         csv_writer.writerow([title, body, current_date, current_time])
 
 
+def edit_note(file_path, title, new_title, new_body):
+    notes = []
+    with open(file_path, 'r', newline='') as csvfile:
+        csv_reader = csv.reader(csvfile, delimiter=';')
+        notes = list(csv_reader)
+
+    with open(file_path, 'w', newline='') as csvfile:
+        csv_writer = csv.writer(csvfile, delimiter=';')
+        csv_writer.writerow(['Name', 'Note', 'Date', 'Time'])
+        for note in notes[1:]:
+            if note[0] == title:
+                csv_writer.writerow([new_title, new_body, note[2], note[3]])
+            else:
+                csv_writer.writerow(note)
+
