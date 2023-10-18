@@ -44,10 +44,22 @@ def notes_delete_submenu():
     print('\t2. Select note to delete')
 
 
+def get_valid_choice(prompt, min_value, max_value):
+    while True:
+        try:
+            choice = int(input(prompt))
+            if min_value <= choice <= max_value:
+                return choice
+            else:
+                print('Please, input the number from {} to {}.'.format(min_value, max_value))
+        except ValueError:
+            print('Please, input correct number.')
+
+
 def user_choice():
     notes_work = True
     while notes_work:
-        main_menu_choice = input('\n\tSelect menu item: ')
+        main_menu_choice = get_valid_choice('\n\tSelect menu item: ')
         if int(main_menu_choice) == 1:
             logger.logging.info('User selected main menu item 1')
             title = input('Input the name of note: ')
@@ -56,7 +68,7 @@ def user_choice():
         elif int(main_menu_choice) == 2:
             logger.logging.info('User selected main menu 2')
             notes_editor_submenu()
-            editor_submenu_choice = int('\n\tSelect menu item: ')
+            editor_submenu_choice = get_valid_choice('\n\tSelect menu item: ')
             if int(editor_submenu_choice == 1):
                 logger.logging.info('User selected editor submenu item 1')
                 list_notes(file_name)
@@ -71,7 +83,7 @@ def user_choice():
         elif int(main_menu_choice) == 3:
             logger.logging.info('User selected main menu item 3')
             notes_reader_submenu()
-            reader_submenu_choice = int('\n\tSelect menu item: ')
+            reader_submenu_choice = get_valid_choice('\n\tSelect menu item: ')
             if int(reader_submenu_choice == 1):
                 logger.logging.info('User selected reader submenu item 1')
                 list_notes(file_name)
@@ -84,7 +96,7 @@ def user_choice():
         elif int(main_menu_choice) == 4:
             logger.logging.info('User selected main menu item 4')
             notes_delete_submenu()
-            delete_menu_choice = int("\n\tSelect menu item: ")
+            delete_menu_choice = get_valid_choice("\n\tSelect menu item: ")
             if int(delete_menu_choice == 1):
                 logger.logging.info('User selected delete submenu item 1')
                 list_notes(file_name)
