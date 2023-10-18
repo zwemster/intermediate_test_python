@@ -4,6 +4,8 @@ from menu_functions import *
 
 
 app_name = ['=' * 41, 'N O T E S', '=' * 41]
+file_name = 'notes.csv'
+create_notes_file(file_name)
 
 
 def notes_cover():          # обложка приложения "заметки"
@@ -14,7 +16,6 @@ def notes_cover():          # обложка приложения "заметк�
 
 
 def notes_main_menu():      # главное меню заметок
-    print(app_name)
     print('\tM E N U')
     print('\t1. Add new note')
     print('\t2. Edit note')
@@ -24,24 +25,24 @@ def notes_main_menu():      # главное меню заметок
 
 
 def notes_editor_submenu():        # подменю заметок
-    print(app_name)
     print('N O T E   E D I T O R\t')
     print('\t1. Show all notes')
     print('\t2. Select note to edit')
+    print('\t3. Back to main menu')
 
 
 def notes_reader_submenu():
-    print(app_name)
     print('N O T E   R E A D E R\t')
     print('\t1. Show all notes')
     print('\t2. Select note')
+    print('\t3. Back to main menu')
 
 
 def notes_delete_submenu():
-    print(app_name)
     print('N O T E   D E L E T E R\t')
     print('\t1. Show all notes')
     print('\t2. Select note to delete')
+    print('\t3. Back to main menu')
 
 
 def get_valid_choice(prompt, min_value, max_value):
@@ -59,7 +60,7 @@ def get_valid_choice(prompt, min_value, max_value):
 def user_choice():
     notes_work = True
     while notes_work:
-        main_menu_choice = get_valid_choice('\n\tSelect menu item: ')
+        main_menu_choice = get_valid_choice('\n\tSelect menu item: ', 1, 5)
         if int(main_menu_choice) == 1:
             logger.logging.info('User selected main menu item 1')
             title = input('Input the name of note: ')
@@ -68,7 +69,7 @@ def user_choice():
         elif int(main_menu_choice) == 2:
             logger.logging.info('User selected main menu 2')
             notes_editor_submenu()
-            editor_submenu_choice = get_valid_choice('\n\tSelect menu item: ')
+            editor_submenu_choice = get_valid_choice('\n\tSelect menu item: ', 1, 3)
             if int(editor_submenu_choice == 1):
                 logger.logging.info('User selected editor submenu item 1')
                 list_notes(file_name)
@@ -77,13 +78,16 @@ def user_choice():
                 note_title_to_edit = input('Input title of a note to edit: ')
                 new_title = input('Input new title: ')
                 new_note = input('Input new note: ')
-                edit_note(note_title_to_edit, new_title, new_note)
+                edit_note(file_name, note_title_to_edit, new_title, new_note)
+            elif int(editor_submenu_choice == 3):
+                logger.logging.info('User selected editor submenu item 3')
+                notes_main_menu()
             else:
                 print('Wrong item. Try again.')
         elif int(main_menu_choice) == 3:
             logger.logging.info('User selected main menu item 3')
             notes_reader_submenu()
-            reader_submenu_choice = get_valid_choice('\n\tSelect menu item: ')
+            reader_submenu_choice = get_valid_choice('\n\tSelect menu item: ', 1, 3)
             if int(reader_submenu_choice == 1):
                 logger.logging.info('User selected reader submenu item 1')
                 list_notes(file_name)
@@ -91,12 +95,15 @@ def user_choice():
                 logger.logging.info('User selected reader submenu item 2')
                 note_title_to_read = input('Input title of a note to edit: ')
                 read_note(file_name, note_title_to_read)
+            elif int(reader_submenu_choice == 3):
+                logger.logging.info('User selected editor submenu item 3')
+                notes_main_menu()
             else:
                 print('Wrong item. Try again.')
         elif int(main_menu_choice) == 4:
             logger.logging.info('User selected main menu item 4')
             notes_delete_submenu()
-            delete_menu_choice = get_valid_choice("\n\tSelect menu item: ")
+            delete_menu_choice = get_valid_choice("\n\tSelect menu item: ", 1, 2)
             if int(delete_menu_choice == 1):
                 logger.logging.info('User selected delete submenu item 1')
                 list_notes(file_name)
@@ -104,6 +111,9 @@ def user_choice():
                 logger.logging.info('User selected delete submenu item 2')
                 note_title_to_delete = input()
                 delete_note(file_name, note_title_to_delete)
+            elif int(delete_menu_choice == 3):
+                logger.logging.info('User selected editor submenu item 3')
+                notes_main_menu()
             else:
                 print('Wrong item. Try again.')
         elif int(main_menu_choice) == 5:

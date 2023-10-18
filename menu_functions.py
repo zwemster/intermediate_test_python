@@ -2,8 +2,6 @@ import csv
 import os
 from datetime import datetime
 
-file_name = 'notes.csv'
-
 
 def create_notes_file(file_path):
     if not os.path.exists(file_path):
@@ -16,9 +14,12 @@ def list_notes(file_path, filter_date=None):
     notes = []
     with open(file_path, 'r', newline='') as csvfile:
         csv_reader = csv.reader(csvfile, delimiter=';')
+        next(csv_reader)
         notes = list(csv_reader)
     if filter_date:
         notes = [note for note in notes if note[2] == filter_date]
+    for note in notes:
+        print(f'Title: {note[0]}')
     return notes
 
 
@@ -33,7 +34,6 @@ def read_note(file_path, title):
                 print(f'Date: {note[2]}')
                 print(f'Time: {note[3]}')
                 print(f'Note: {note[1]}')
-        print('No notes with this title.')
 
 
 def add_note(file_path, title, body):
@@ -58,6 +58,9 @@ def edit_note(file_path, title, new_title, new_body):
                 csv_writer.writerow([new_title, new_body, note[2], note[3]])
             else:
                 csv_writer.writerow(note)
+
+    if notes and notes[0][0] == 'Name':
+        add_note(file_path, title, new_body, notes[0][2], notes[0][3])
 
 
 def delete_note(file_path, title):
